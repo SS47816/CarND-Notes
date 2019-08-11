@@ -35,7 +35,6 @@ public:
         int x;
         int y;
         int g;
-        //int h;
         int f;
     };
 
@@ -50,7 +49,7 @@ public:
     inline int huristic_cost(int x, int y, vector<int> &goal);
     inline bool compare_f_cost(const grid a, const grid b);
     vector<grid> expand(grid &state, vector<int> &goal);
-    result search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal);
+    result search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost);
 };
 
 #endif // A_STAR_H_

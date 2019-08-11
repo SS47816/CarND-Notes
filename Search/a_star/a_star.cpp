@@ -21,10 +21,10 @@ inline bool A_STAR::compare_f_cost(const A_STAR::grid a, const A_STAR::grid b)
 
 vector<A_STAR::grid> A_STAR::expand(A_STAR::grid &state, vector<int> &goal)
 {
-    
+
 }
 
-A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal){
+A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost){
     /* 
         search for the shortest path
     */
@@ -37,9 +37,9 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
     state.f = state.g + huristic_cost(state.x, state.y, goal);
 
     // init closed list, expand list, action list
-    vector<vector<int>> closed(map.size(), vector<int>(map[0].size()));
-    closed[start[0]][start[1]] = 1;
-    vector<vector<int>> expand(map.size(), vector<int>(map[0].size(), -1));
+    vector<vector<int>> closed_list(map.size(), vector<int>(map[0].size()));
+    closed_list[start[0]][start[1]] = 1;
+    vector<vector<int>> expand_list(map.size(), vector<int>(map[0].size(), -1));
     vector<vector<int>> action(map.size(), vector<int>(map[0].size(), -1));
 
     // init open list
@@ -59,9 +59,51 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
         }
         else 
         {
+            // pop out the grid with the lowest f cost
             sort(open_list.begin(), open_list.end(), compare_f_cost);
             grid current_grid = open_list[0];
+            open_list.erase(open_list.begin());
 
+            int x = current_grid.x;
+            int y = current_grid.y;
+            int g = current_grid.g;
+            expand_list[x][y] = count;
+            count += 1;
+
+            // if the current grid reaches the goal
+            if (x == goal[0] && y == goal[1])
+            {
+                found = true;
+                std::cout << "Goal Reached!" << std::endl;
+            }
+            else
+            {
+                // for all of the 4 possible motions(up, left, down, right)
+                for (int i = 0; i < motion.size(); i++)
+                {
+                    int x2 = x + motion[i][0];
+                    int y2 = y + motion[i][1];
+                    // if next grid is within the map
+                    if ((x2 >= 0 && x2 <= map.size()) && (y2 >= 0 && y2 <= map[0].size()))
+                    {
+                        // if next grid is not in the closed_list and is drivable on the map
+                        if (closed_list[x2][y2] == 0 && map[x2][y2] == 0) 
+                        {
+                            // set it as the next_state
+                            grid next_grid;
+                            next_grid.x = x2;
+                            next_grid.y = y2;
+                            next_grid.g = g + cost;
+                            next_grid.f = next_grid.g + huristic_cost(x2, y2, goal);
+
+                            // update the lists
+                            open_list.push_back(next_grid);
+                            closed_list[x2][y2] = 1;
+                            action[x2][y2] = i;
+                        }
+                    }
+                }
+            }
         }
     }
 }
