@@ -28,6 +28,8 @@
 #include <vector>
 #include "a_star.h"
 
+using std::vector;
+
 // Initializes A_STAR
 A_STAR::A_STAR() {}
 
@@ -35,28 +37,21 @@ A_STAR::~A_STAR() {}
 
 inline int A_STAR::huristic_cost(int x, int y, vector<int> &goal) 
 {
-    /* 
-        calculate the Manhattan huristic distance between the current grid cell and the goal
-    */
+    /* calculate the Manhattan huristic distance between the current grid cell and the goal */
     return fabs(x - goal[0]) + fabs(y - goal[1]);
 }
 
 inline bool A_STAR::compare_f_cost(const A_STAR::grid a, const A_STAR::grid b)
 {
-    /* 
-        compare the f cost of two grid cells
-    */
+    /* compare the f cost of two grid cells */
     return a.f < b.f;
 }
 
 A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost) 
 {
-    /* 
-        start searching for the shortest path
-    */
-
+    /* start searching for the shortest path */
     // init the first(starting) grid
-    grid state;
+    A_STAR::grid state;
     state.x = start[0];
     state.y = start[1];
     state.g = 0;
@@ -69,7 +64,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
     vector<vector<int>> action(map.size(), vector<int>(map[0].size(), -1));
 
     // init open list
-    vector<grid> open_list;
+    vector<A_STAR::grid> open_list;
     open_list.push_back(state);
 
     bool found = false;
@@ -87,7 +82,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
         {
             // pop out the grid with the lowest f cost
             sort(open_list.begin(), open_list.end(), compare_f_cost);
-            grid current_grid = open_list[0];
+            A_STAR::grid current_grid = open_list[0];
             open_list.erase(open_list.begin());
 
             int x = current_grid.x;
@@ -116,7 +111,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
                         if (closed_list[x2][y2] == 0 && map[x2][y2] == 0) 
                         {
                             // set it as the next_state
-                            grid next_grid;
+                            A_STAR::grid next_grid;
                             next_grid.x = x2;
                             next_grid.y = y2;
                             next_grid.g = g + cost;
@@ -131,5 +126,55 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
                 }
             }
         }
+    }
+
+    // return the search result
+    A_STAR::result search_result;
+    search_result.closed = closed_list;
+    search_result.expand = expand_list;
+    search_result.action = action;
+    return search_result;
+}
+
+void A_STAR::print_search_result(A_STAR::result &search_result, vector<int> &start, vector<int> &goal)
+{
+    /* print the expansion result */
+    for (int i = 0; i < search_result.expand.size(); i++)
+    {
+        std::cout << search_result.expand[i][0];
+        for (int j = 1; j < search_result.expand[0].size(); j++)
+        {
+            std::cout << ", " << search_result.expand[i][j];
+        }
+        std::cout << std::endl;
+    }
+
+    /* print path arrows on the map */
+    vector<vector<int>> policy((int)search_result.action.size(), 
+                                vector<int>((int)search_result.action[0].size()));
+    int x = goal[0];
+    int y = goal[1];
+    policy[x][y] = '*';
+
+    // while haven't reached the starting cell
+    while (x != start[0] || y != start[1])
+    {
+        // write arrows into the previous grid cells based on the next grid cells
+        int x2 = x - motion[search_result.action[x][y]][0];
+        int y2 = y - motion[search_result.action[x][y]][1];
+        policy[x2][y2] = motion_name[motion[x][y]];
+        x = x2;
+        y = y2;
+    }
+
+    // print arrows
+    for (int i = 0; i < policy.size(); i++)
+    {
+        std::cout << policy[i][0];
+        for (int j = 1; j < policy[0].size(); j++)
+        {
+            std::cout << ", " << policy[i][j];
+        }
+        std::cout << std::endl;
     }
 }
