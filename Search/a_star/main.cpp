@@ -18,6 +18,7 @@ vector<vector<int>> map = {
 
 vector<int> start = {0, 0};
 vector<int> goal = {(int)map.size() - 1, (int)map[0].size() - 1};
+int cost = 1;
 
 int main()
 {

@@ -1,3 +1,27 @@
+/*  a_star.cpp
+    
+    August 2019
+    CODE AUTHOR: SS47816
+    E-MAIL: e0134075@u.nus.edu
+    GitHub: SS47816@github.com
+
+    License: MIT License
+    ~~ Feel free to make any modifications ~~
+
+    Purpose:
+    This piece of code is the implementation of A* search algorithm for navigation problems in 2D space. 
+    This algorithm takes in a 2D map, a starting position, and a goal position, generates the shortest path between them.
+
+    Input Format:
+    vector<vector<int>> map, for each grid in map, drivalebe area are 0 and obstacles are 1
+    vector<int> start, map coordinates in (x, y)
+    vector<int> goal, map coordinates in (x, y)
+    vector<int> costs, 
+
+    Output Format:
+
+*/
+
 #include <math.h>
 #include <iostream>
 #include <algorithm>
@@ -11,22 +35,24 @@ A_STAR::~A_STAR() {}
 
 inline int A_STAR::huristic_cost(int x, int y, vector<int> &goal) 
 {
+    /* 
+        calculate the Manhattan huristic distance between the current grid cell and the goal
+    */
     return fabs(x - goal[0]) + fabs(y - goal[1]);
 }
 
 inline bool A_STAR::compare_f_cost(const A_STAR::grid a, const A_STAR::grid b)
 {
+    /* 
+        compare the f cost of two grid cells
+    */
     return a.f < b.f;
 }
 
-vector<A_STAR::grid> A_STAR::expand(A_STAR::grid &state, vector<int> &goal)
+A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost) 
 {
-
-}
-
-A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost){
     /* 
-        search for the shortest path
+        start searching for the shortest path
     */
 
     // init the first(starting) grid
