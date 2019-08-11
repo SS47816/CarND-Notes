@@ -30,8 +30,6 @@ public:
     };
 
     // A_STAR functions
-    inline int huristic_cost(int x, int y, vector<int> &goal);
-    inline bool compare_f_cost(const grid a, const grid b);
     result search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost);
     void print_search_result(result &search_result, vector<int> &start, vector<int> &goal);
 
@@ -46,6 +44,10 @@ private:
     vector<char> motion_name = {
         '^', '<', 'v', '>',
     };
+
+    // A_STAR functions
+    inline int huristic_cost(int x, int y, vector<int> &goal);
+    inline bool compare_f_cost(const grid a, const grid b);
 };
 
 #endif // A_STAR_H_

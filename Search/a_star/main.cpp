@@ -5,8 +5,8 @@
 using std::cout;
 using std::endl;
 
-int X = 1;
-int _ = 0;
+const int X = 1;
+const int _ = 0;
 
 vector<vector<int>> map = {
     {_, X, _, _, _, _,},
@@ -18,10 +18,12 @@ vector<vector<int>> map = {
 
 vector<int> start = {0, 0};
 vector<int> goal = {(int)map.size() - 1, (int)map[0].size() - 1};
-int cost = 1;
+const int cost = 1;
 
 int main()
 {
-
+    A_STAR a_star = A_STAR();
+    A_STAR::result planning_result = a_star.search(map, start, goal, cost);
+    a_star.print_search_result(planning_result, start, goal);
     return 0;
 }
