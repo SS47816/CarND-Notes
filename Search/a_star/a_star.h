@@ -24,17 +24,17 @@ public:
 
     struct result
     {
-        vector<vector<int>> closed;
-        vector<vector<int>> expand;
-        vector<vector<int>> action;
+        vector<vector<int> > closed;
+        vector<vector<int> > expand;
+        vector<vector<int> > action;
     };
 
     // A_STAR functions
-    result search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost);
+    result search(vector<vector<int> > &map, vector<int> &start, vector<int> &goal, int cost);
     void print_search_result(result &search_result, vector<int> &start, vector<int> &goal);
 
 private:
-    vector<vector<int>> motion = {
+    vector<vector<int> > motion = {
         {-1, 0}, // go up
         {0, -1}, // go left
         {1, 0},  // go down
@@ -42,7 +42,7 @@ private:
     };
 
     vector<char> motion_name = {
-        '^', '<', 'v', '>',
+        '^', '<', 'v', '>'
     };
 
     // A_STAR functions

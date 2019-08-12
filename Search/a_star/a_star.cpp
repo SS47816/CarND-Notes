@@ -1,14 +1,32 @@
 /*  a_star.cpp
     
-    August 2019
+    MIT License
+
+    Copyright (c) 2018-2019 SS47816@github.com.
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
     CODE AUTHOR: SS47816
     E-MAIL: e0134075@u.nus.edu
     GitHub: SS47816@github.com
 
-    License: MIT License
-    ~~ Feel free to make any modifications ~~
-
-    Purpose:
+    Content:
     This piece of code is the implementation of A* search algorithm for navigation problems in 2D space. 
     This algorithm takes in a 2D map, a starting position, and a goal position, generates the shortest path between them.
 
@@ -20,6 +38,7 @@
 
     Output Format:
 
+    ~~ Feel free to make any modifications ~~
 */
 
 #include <math.h>
@@ -35,7 +54,7 @@ A_STAR::A_STAR() {}
 
 A_STAR::~A_STAR() {}
 
-inline int A_STAR::huristic_cost(int x, int y, vector<int> &goal) 
+inline int A_STAR::huristic_cost(int x, int y, vector<int> &goal)
 {
     /* calculate the Manhattan huristic distance between the current grid cell and the goal */
     return fabs(x - goal[0]) + fabs(y - goal[1]);
@@ -47,7 +66,7 @@ inline bool A_STAR::compare_f_cost(const A_STAR::grid a, const A_STAR::grid b)
     return a.f < b.f;
 }
 
-A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost) 
+A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost)
 {
     /* start searching for the shortest path */
     // init the first(starting) grid
@@ -78,7 +97,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
             resign = true;
             std::cout << "Search Failed! No path available." << std::endl;
         }
-        else 
+        else
         {
             // pop out the grid with the lowest f cost
             sort(open_list.begin(), open_list.end(), compare_f_cost);
@@ -108,7 +127,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
                     if ((x2 >= 0 && x2 <= map.size()) && (y2 >= 0 && y2 <= map[0].size()))
                     {
                         // if next grid is not in the closed_list and is drivable on the map
-                        if (closed_list[x2][y2] == 0 && map[x2][y2] == 0) 
+                        if (closed_list[x2][y2] == 0 && map[x2][y2] == 0)
                         {
                             // set it as the next_state
                             A_STAR::grid next_grid;
@@ -150,8 +169,8 @@ void A_STAR::print_search_result(A_STAR::result &search_result, vector<int> &sta
     }
 
     /* print path arrows on the map */
-    vector<vector<int>> policy((int)search_result.action.size(), 
-                                vector<int>((int)search_result.action[0].size()));
+    vector<vector<int>> policy((int)search_result.action.size(),
+                               vector<int>((int)search_result.action[0].size()));
     int x = goal[0];
     int y = goal[1];
     policy[x][y] = '*';
