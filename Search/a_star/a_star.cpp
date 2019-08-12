@@ -60,17 +60,17 @@ inline int A_STAR::huristic_cost(int x, int y, vector<int> &goal)
     return fabs(x - goal[0]) + fabs(y - goal[1]);
 }
 
-inline bool A_STAR::compare_f_cost(const A_STAR::grid a, const A_STAR::grid b)
+inline bool A_STAR::compare_f_cost(const A_STAR::Grid a, const A_STAR::Grid b)
 {
     /* compare the f cost of two grid cells */
     return a.f < b.f;
 }
 
-A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost)
+A_STAR::Result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost)
 {
     /* start searching for the shortest path */
     // init the first(starting) grid
-    A_STAR::grid state;
+    A_STAR::Grid state;
     state.x = start[0];
     state.y = start[1];
     state.g = 0;
@@ -83,7 +83,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
     vector<vector<int>> action(map.size(), vector<int>(map[0].size(), -1));
 
     // init open list
-    vector<A_STAR::grid> open_list;
+    vector<A_STAR::Grid> open_list;
     open_list.push_back(state);
 
     bool found = false;
@@ -101,7 +101,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
         {
             // pop out the grid with the lowest f cost
             sort(open_list.begin(), open_list.end(), compare_f_cost);
-            A_STAR::grid current_grid = open_list[0];
+            A_STAR::Grid current_grid = open_list[0];
             open_list.erase(open_list.begin());
 
             int x = current_grid.x;
@@ -119,10 +119,10 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
             else
             {
                 // for all of the 4 possible motions(up, left, down, right)
-                for (int i = 0; i < motion.size(); i++)
+                for (int i = 0; i < motion_.size(); i++)
                 {
-                    int x2 = x + motion[i][0];
-                    int y2 = y + motion[i][1];
+                    int x2 = x + motion_[i][0];
+                    int y2 = y + motion_[i][1];
                     // if next grid is within the map
                     if ((x2 >= 0 && x2 <= map.size()) && (y2 >= 0 && y2 <= map[0].size()))
                     {
@@ -130,7 +130,7 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
                         if (closed_list[x2][y2] == 0 && map[x2][y2] == 0)
                         {
                             // set it as the next_state
-                            A_STAR::grid next_grid;
+                            A_STAR::Grid next_grid;
                             next_grid.x = x2;
                             next_grid.y = y2;
                             next_grid.g = g + cost;
@@ -148,14 +148,14 @@ A_STAR::result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
     }
 
     // return the search result
-    A_STAR::result search_result;
+    A_STAR::Result search_result;
     search_result.closed = closed_list;
     search_result.expand = expand_list;
     search_result.action = action;
     return search_result;
 }
 
-void A_STAR::print_search_result(A_STAR::result &search_result, vector<int> &start, vector<int> &goal)
+void A_STAR::print_search_result(A_STAR::Result &search_result, vector<int> &start, vector<int> &goal)
 {
     /* print the expansion result */
     for (int i = 0; i < search_result.expand.size(); i++)
@@ -179,9 +179,9 @@ void A_STAR::print_search_result(A_STAR::result &search_result, vector<int> &sta
     while (x != start[0] || y != start[1])
     {
         // write arrows into the previous grid cells based on the next grid cells
-        int x2 = x - motion[search_result.action[x][y]][0];
-        int y2 = y - motion[search_result.action[x][y]][1];
-        policy[x2][y2] = motion_name[motion[x][y]];
+        int x2 = x - motion_[search_result.action[x][y]][0];
+        int y2 = y - motion_[search_result.action[x][y]][1];
+        policy[x2][y2] = motion_name_[motion_[x][y]];
         x = x2;
         y = y2;
     }

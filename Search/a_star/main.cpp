@@ -54,7 +54,7 @@ const int cost = 1;
 int main()
 {
     A_STAR a_star = A_STAR();
-    A_STAR::result planning_result = a_star.search(map, start, goal, cost);
+    A_STAR::Result planning_result = a_star.search(map, start, goal, cost);
     a_star.print_search_result(planning_result, start, goal);
     return 0;
 }
