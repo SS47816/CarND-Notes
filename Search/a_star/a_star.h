@@ -30,10 +30,14 @@ public:
     };
 
     // A_STAR functions
-    Result search(vector<vector<int> > &map, vector<int> &start, vector<int> &goal, int cost);
+    Result search(vector<vector<int> > &map, vector<int> &start, vector<int> &goal, vector<int> costs);
     void print_search_result(Result &search_result, vector<int> &start, vector<int> &goal);
 
 private:
+    // vehicle is restricted to only 3 types of motion
+    // vector<int> motion_ = {1, 0, -1}; // left turn, go straight, right turn
+    // vector<char> motion_name_ = {'L', '#', 'R'};
+
     vector<vector<int> > motion_ = {
         {-1, 0}, // go up
         {0, -1}, // go left

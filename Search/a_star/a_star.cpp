@@ -66,7 +66,7 @@ inline bool A_STAR::compare_f_cost(const A_STAR::Grid a, const A_STAR::Grid b)
     return a.f < b.f;
 }
 
-A_STAR::Result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, int cost)
+A_STAR::Result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vector<int> &goal, vector<int> costs)
 {
     /* start searching for the shortest path */
     // init the first(starting) grid
@@ -133,7 +133,7 @@ A_STAR::Result A_STAR::search(vector<vector<int>> &map, vector<int> &start, vect
                             A_STAR::Grid next_grid;
                             next_grid.x = x2;
                             next_grid.y = y2;
-                            next_grid.g = g + cost;
+                            next_grid.g = g + costs[1];
                             next_grid.f = next_grid.g + huristic_cost(x2, y2, goal);
 
                             // update the lists
