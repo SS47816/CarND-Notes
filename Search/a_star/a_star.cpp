@@ -60,7 +60,7 @@ inline int A_STAR::huristic_cost(int x, int y, vector<int> &goal)
     return fabs(x - goal[0]) + fabs(y - goal[1]);
 }
 
-inline bool A_STAR::compare_f_cost(const A_STAR::Grid a, const A_STAR::Grid b)
+static bool A_STAR::compare_f_cost(const A_STAR::Grid a, const A_STAR::Grid b)
 {
     /* compare the f cost of two grid cells */
     return a.f < b.f;
