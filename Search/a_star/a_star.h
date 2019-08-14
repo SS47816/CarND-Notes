@@ -51,7 +51,7 @@ private:
 
     // A_STAR functions
     inline int huristic_cost(int x, int y, vector<int> &goal);
-    static bool compare_f_cost(const Grid a, const Grid b);
+    static bool compare_f_cost(const Grid &a, const Grid &b);
 };
 
 #endif // A_STAR_H_
