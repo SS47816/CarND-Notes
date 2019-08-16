@@ -2,7 +2,7 @@
     
     MIT License
 
-    Copyright (c) 2018-2019 SS47816@github.com.
+    Copyright (c) 2019-2020 SS47816
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
