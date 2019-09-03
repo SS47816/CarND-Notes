@@ -18,18 +18,18 @@ bool close_enough(vector<double> &poly, vector<double> &target_poly,
 {
     if (poly.size() != target_poly.size())
     {
-        std::cout << "Your solution didn't have the correct number of terms"
-                  << std::endl;
+        // std::cout << "Your solution didn't have the correct number of terms"
+        //           << std::endl;
         return false;
     }
 
     for (int i = 0; i < poly.size(); ++i)
     {
         double diff = poly[i] - target_poly[i];
-        if (abs(diff) > eps)
+        if (std::abs(diff) > eps)
         {
-            std::cout << "At least one of your terms differed from target by more than "
-                      << eps << std::endl;
+            // std::cout << "At least one of your terms differed from target by more than "
+            //           << eps << std::endl;
             return false;
         }
     }

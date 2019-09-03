@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Dense"
+#include "Eigen/Dense"
 #include "grader.h"
 
 using Eigen::MatrixXd;
